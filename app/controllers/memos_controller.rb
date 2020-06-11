@@ -1,4 +1,7 @@
 class MemosController < ApplicationController
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+
+  before_action :authenticate
   before_action :set_memo, only: [:show, :update, :destroy]
 
   # GET /memos
@@ -47,5 +50,12 @@ class MemosController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def memo_params
       params.require(:memo).permit(:title, :content)
+    end
+
+    def authenticate
+      authenticate_or_request_with_http_token do |token,options|
+        auth_user = User.find_by(token: token)
+        auth_user != nil ? true : false
+      end
     end
 end
