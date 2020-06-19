@@ -21,11 +21,12 @@ ActiveRecord::Schema.define(version: 2020_06_11_113345) do
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
-    t.string "pwd"
-    t.string "token"
+    t.string "encrypted_password"
+    t.string "access_token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["token"], name: "index_users_on_token", unique: true
+    t.index ["access_token"], name: "index_users_on_access_token", unique: true
+    t.index ["name"], name: "index_users_on_name", unique: true
   end
 
 end
